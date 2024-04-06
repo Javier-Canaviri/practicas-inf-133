@@ -43,8 +43,8 @@ class CrearPlanta(Mutation):
             especie = especie,
             edad = edad,
             altura=altura,
-            frutos=frutos
-        )
+            frutos=frutos,
+        ),
         plantas.append(nueva_planta)
 
         return CrearPlanta(planta=nueva_planta)
@@ -114,3 +114,4 @@ def run_server(port=8000):
 
 if __name__ == "__main__":
     run_server()
+ 
