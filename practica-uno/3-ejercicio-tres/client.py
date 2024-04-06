@@ -3,7 +3,7 @@ import requests
 url="http://localhost:8000/"
 #CREAR UN PACIENTE
 nuevo_paciente={
-    "ci":6,
+    "ci":3,
     "nombre":"Lautaro",
     "apellido":"Cobra",
     "edad":26,
@@ -28,7 +28,7 @@ ruta_get_por_ci= url+"pacientes/1"
 get_response = requests.request(method="GET", url=ruta_get_por_ci)
 print(get_response.text)
 print("----------------------------------------------------")
-
+"""
 #LISTAR A LOS PACIENTES CON DIAGNOSTICO DIABETES
 ruta_get_diagnostico = url + "pacientes?diagnostico=Diabetes"
 get_response = requests.request(method="GET", url=ruta_get_diagnostico)
@@ -40,7 +40,7 @@ ruta_get_doctor = url + "pacientes?doctor=Pedro Pérez"
 get_response = requests.request(method="GET", url=ruta_get_doctor)
 print(get_response.text)
 print("----------------------------------------------------")
-
+"""
 #ACTUALIZAR LA INFORMACION DE UN PACIENTE
 paciente_actualizado={
     "nombre":"David",
@@ -50,20 +50,21 @@ paciente_actualizado={
     "diagnostico":"Diabetes",
     "doctor":"Pedro Pérez",
 }
-ruta_put_paciente= url+ "pacientes/6"
+ruta_put_paciente= url+ "pacientes/1"
 put_response=requests.request(method="PUT", url=ruta_put_paciente, json=paciente_actualizado)
 print(put_response.text)
 print("----------------------------------------------------")
 
 #ELIMINAR UN PACIENTE
-ruta_delete=url+"pacientes/6"
+ruta_delete=url+"pacientes/1"
 delete_response=requests.request(method="DELETE", url=ruta_delete)
 print(delete_response.text)
 
-
+'''
 print("----------------------------------------------------")
 #LISTAR A LOS PACIENTES CON DIAGNOSTICO DIABETES
 ruta_get_diagnostico = url + "pacientes?diagnostico=Diabetes"
 get_response = requests.request(method="GET", url=ruta_get_diagnostico)
 print(get_response.text)
 
+'''

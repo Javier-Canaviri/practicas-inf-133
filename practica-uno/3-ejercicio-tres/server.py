@@ -21,7 +21,7 @@ pacientes = [
         "diagnostico":"Diabetes",
         "doctor":"Pedro Pérez",
     },
-    
+] 
 
 class PacientesService:
     @staticmethod
@@ -48,7 +48,7 @@ class PacientesService:
     
     @staticmethod
     def update_patient(ci, data):
-        paciente=PacientesService.filter_patient_by_ci(ci)
+        paciente=PacientesService.buscar_por_ci(ci)
         if paciente:
             paciente.update(data)
             return pacientes
@@ -57,8 +57,9 @@ class PacientesService:
     
     @staticmethod
     def delete_patient(ci):
-        pacientes=[paciente for paciente in pacientes if paciente["ci"]!= ci]
-        return pacientes
+        global pacientes
+        new_pacientes=[paciente for paciente in pacientes if int(paciente["ci"])!= ci]
+        return new_pacientes
 
 
 class HTTPResponseHandler:
@@ -86,7 +87,7 @@ class RESTRequestHandler(BaseHTTPRequestHandler):
                     )
                 else:
                     HTTPResponseHandler.handle_response(self, 204, [])
-            if "diagnostico" in query_params:
+            elif "diagnostico" in query_params:
                 diagnostico = query_params['diagnostico'][0]
                 pacientes_filtrados1=PacientesService.buscar_por_enfermedad(diagnostico)
                 if pacientes_filtrados1:
@@ -127,7 +128,7 @@ class RESTRequestHandler(BaseHTTPRequestHandler):
             HTTPResponseHandler.handle_response(self, 404, {"Error":"Ruta no Existente"})
             
     def do_PUT(self):
-        if self.path.startswith("/estudiantes/"):
+        if self.path.startswith("/pacientes/"):
             id =int(self.path.split("/")[-1])
             data=self.read_data()
             pacientes=PacientesService.update_patient(id, data)
@@ -137,9 +138,9 @@ class RESTRequestHandler(BaseHTTPRequestHandler):
                 HTTPResponseHandler.handle_response(self, 404, {"Error":"Paciente no Encontrado"})
     
     def do_DELETE(self):
-        if self.path=="/pacientes/":
-            id =int(self.path.split("/")[-1])
-            pacientes= PacientesService.delete_patient(id)
+        if self.path.startswith("/pacientes/"):
+            ci =int(self.path.split("/")[-1])
+            pacientes= PacientesService.delete_patient(ci)
             if pacientes:
                 HTTPResponseHandler.handle_response(self, 200, pacientes)
             else:
